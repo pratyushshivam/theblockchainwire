@@ -6,7 +6,7 @@
 
 | | |
 | :-- | :-- |
-| **What it does** | Reads the public feeds of 13 outlets every two hours and lists headline, source, time and a one-line summary |
+| **What it does** | Reads the public feeds of 13 outlets every hour and lists headline, source, time and a one-line summary |
 | **What it never does** | Copy a full story, rank by hand, show adverts or track readers |
 | **Sections** | Regulation, Enterprise, Bitcoin, Ethereum, DeFi, Markets, Industry |
 | **From the editor** | Pieces written by [Pratyush Shivam](https://www.pratyushshivam.com), always labelled |
@@ -18,7 +18,7 @@
 2. New stories are merged into `data/items.json`, which holds the last 45 days.
 3. Each story is filed into a section by keyword rules, so a few will land in the wrong one.
 4. The script writes plain HTML into `dist/`: the front page, a page per section, the editor's pieces, an RSS feed and a sitemap.
-5. A scheduled GitHub Action runs this every two hours and publishes the result.
+5. A scheduled GitHub Action runs this every hour and publishes the result.
 
 ## Run it locally
 

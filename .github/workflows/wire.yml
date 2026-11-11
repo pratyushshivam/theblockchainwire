@@ -1,9 +1,9 @@
-# Reads the feeds every two hours, keeps the archive in the repo, and publishes the static site.
+# Reads the feeds every hour, keeps the archive in the repo, and publishes the static site.
 # Free on a public repository. Needs two repository secrets: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
 name: wire
 on:
   schedule:
-    - cron: "7 */2 * * *"
+    - cron: "23 * * * *"
   push:
     branches: [main]
   workflow_dispatch:
