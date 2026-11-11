@@ -93,7 +93,7 @@ const story = (i, cls = "") => `<article class="st ${cls}" data-c="${i.c}" data-
 const row = (i) => `<li class="row" data-c="${i.c}" data-s="${esc(i.s)}">${time(i.d)}<a href="${esc(i.u)}" rel="noopener nofollow" target="_blank">${esc(i.t)}</a><span class="src">${esc(i.s)}</span><span class="sec">${secName[i.c]}</span></li>`;
 const edCard = (e, big) => `<article class="ed ${big ? "big" : ""}"><div class="meta"><span class="flag">From the editor</span><time datetime="${e.date}">${fmtDay(new Date(e.date)).replace(/^\w+ /, "")}</time></div><h3><a href="/editor/${e.slug}/">${esc(e.title)}</a></h3><p>${esc(e.summary)}</p></article>`;
 
-const nav = (cur) => `<nav class="nav" aria-label="Sections"><a href="/"${cur === "home" ? ' aria-current="page"' : ""}>Latest</a>${SECTIONS.map((s) => `<a href="/${s.id}/"${cur === s.id ? ' aria-current="page"' : ""}>${s.name}</a>`).join("")}<a href="/editor/"${cur === "editor" ? ' aria-current="page"' : ""}>From the editor</a><a href="/about/"${cur === "about" ? ' aria-current="page"' : ""}>About</a></nav>`;
+const nav = (cur) => `<nav class="nav" aria-label="Sections"><a href="/"${cur === "home" ? ' aria-current="page"' : ""}>Latest</a>${SECTIONS.map((s) => `<a href="/${s.id}/"${cur === s.id ? ' aria-current="page"' : ""}>${s.name}</a>`).join("")}<a href="/editor/"${cur === "editor" ? ' aria-current="page"' : ""}>From the editor</a><a href="/pratyush-shivam/"${cur === "who" ? ' aria-current="page"' : ""}>The editor</a><a href="/about/"${cur === "about" ? ' aria-current="page"' : ""}>About</a></nav>`;
 const ticker = () => { const t = items.slice(0, 14).map((i) => `<a href="${esc(i.u)}" rel="noopener nofollow" target="_blank"><b>${esc(i.s)}</b>${esc(clip(i.t, 90))}</a>`).join(""); return `<div class="tick" aria-hidden="true"><span class="live"><i></i>Live</span><div class="tape"><div class="run">${t}${t}</div></div></div>`; };
 
 const page = ({ title, desc, url, cur, body, extraHead = "" }) => `<!doctype html>
@@ -113,7 +113,7 @@ ${ticker()}
 ${nav(cur)}
 </div></header>
 <main class="wrap">${body}</main>
-<footer class="foot"><div class="wrap"><div><b>The Blockchain Wire</b><p>Headlines are read automatically from the public feeds of the outlets named beside them. Every story links to its original. Edited by <a href="https://www.pratyushshivam.com" rel="noopener">Pratyush Shivam</a>.</p></div><div class="fl"><a href="/about/">About and sources</a><a href="/editor/">From the editor</a><a href="/feed.xml">RSS</a></div></div></footer>
+<footer class="foot"><div class="wrap"><div><b>The Blockchain Wire</b><p>Headlines are read automatically from the public feeds of the outlets named beside them. Every story links to its original. Edited by <a href="/pratyush-shivam/">Pratyush Shivam</a>.</p></div><div class="fl"><a href="/pratyush-shivam/">The editor</a><a href="/about/">About and sources</a><a href="/editor/">From the editor</a><a href="/feed.xml">RSS</a></div></div></footer>
 <script src="/wire.js" defer></script>
 </body></html>`;
 
@@ -151,21 +151,37 @@ write("editor/index.html", page({ title: "From the editor · The Blockchain Wire
 for (const e of editor) {
   const ld = { "@context": "https://schema.org", "@type": "Article", headline: e.title, description: e.summary, datePublished: e.date, author: { "@type": "Person", name: "Pratyush Shivam", url: "https://www.pratyushshivam.com" }, publisher: { "@type": "Organization", name: "The Blockchain Wire", url: SITE }, mainEntityOfPage: `${SITE}/editor/${e.slug}/` };
   write(`editor/${e.slug}/index.html`, page({ title: `${e.title} · The Blockchain Wire`, desc: e.summary, url: `/editor/${e.slug}/`, cur: "editor", extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>`,
-    body: `<article class="art"><div class="meta"><span class="flag">From the editor</span><time datetime="${e.date}">${fmtDay(new Date(e.date))}</time><span>${Math.max(1, Math.round(e.words / 220))} min read</span></div><h1>${esc(e.title)}</h1><p class="stand">${esc(e.summary)}</p><div class="by">By <a href="https://www.pratyushshivam.com" rel="noopener">Pratyush Shivam</a>, editor</div><div class="prose">${e.html}</div><a class="back" href="/editor/">← All pieces from the editor</a></article>` }));
+    body: `<article class="art"><div class="meta"><span class="flag">From the editor</span><time datetime="${e.date}">${fmtDay(new Date(e.date))}</time><span>${Math.max(1, Math.round(e.words / 220))} min read</span></div><h1>${esc(e.title)}</h1><p class="stand">${esc(e.summary)}</p><div class="by">By <a href="/pratyush-shivam/">Pratyush Shivam</a>, editor</div><div class="prose">${e.html}</div><a class="back" href="/editor/">← All pieces from the editor</a></article>` }));
+}
+
+
+// ---------- the editor
+{
+  const ld = { "@context": "https://schema.org", "@type": "ProfilePage", mainEntity: { "@type": "Person", name: "Pratyush Shivam", jobTitle: "Chief Technology Officer", worksFor: { "@type": "Organization", name: "Konfidio" }, url: "https://www.pratyushshivam.com", image: `${SITE}/pratyush-shivam.jpg`, sameAs: ["https://www.linkedin.com/in/pratyushshivam/", "https://github.com/pratyushshivam", "https://www.pratyushshivam.com"] } };
+  write("pratyush-shivam/index.html", page({ title: "Pratyush Shivam, editor · The Blockchain Wire", desc: "Pratyush Shivam is the CTO of Konfidio, where he leads the technology behind TrustedTrucks, and the editor of The Blockchain Wire.", url: "/pratyush-shivam/", cur: "who", extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script><meta property="og:image" content="${SITE}/pratyush-shivam.jpg">`,
+    body: `<div class="who"><div class="pic"><img src="/pratyush-shivam.jpg" alt="Pratyush Shivam" width="720" height="720"><ul class="facts"><li><span>Role</span>CTO, Konfidio</li><li><span>Building</span><a href="https://www.trustedtrucks.com" rel="noopener">TrustedTrucks</a></li><li><span>Here</span>Editor</li><li><span>Site</span><a href="https://www.pratyushshivam.com" rel="noopener">pratyushshivam.com</a></li><li><span>LinkedIn</span><a href="https://www.linkedin.com/in/pratyushshivam/" rel="noopener">in/pratyushshivam</a></li><li><span>GitHub</span><a href="https://github.com/pratyushshivam" rel="noopener">pratyushshivam</a></li></ul></div>
+<article class="art"><div class="meta"><span class="flag">The editor</span></div><h1>Pratyush Shivam</h1><p class="stand">Chief Technology Officer at Konfidio, where he leads the technology behind TrustedTrucks. He builds systems that let companies who do not fully trust each other work from the same record.</p><div class="prose">
+<h2>What he builds</h2><p>TrustedTrucks is a permissioned blockchain network that gives European freight one shared record. A shipper, a forwarder, a carrier and a consignee work from the same shipment, from the first quote to payment, instead of each keeping a copy that drifts from the others. Pratyush led the build from architecture to production, on the web and on Android.</p>
+<p>The part closest to this site is the evidence layer. Shipment documents are fingerprinted on chain, so any party can check that a file is the one that was approved, while the document itself stays private. He wrote about what that does and does not prove in <a href="/editor/what-a-document-fingerprint-proves/">this piece</a>.</p>
+<h2>How he thinks about blockchain</h2><p>As infrastructure, not as a product. A ledger is useful when several independent companies need to rely on the same facts and none of them should own those facts. Where one company can simply keep a database, it should.</p>
+<h2>Outside work</h2><p>He builds small, open source things that run in a browser tab: a game about the speed of light, the universe at true scale, a language model you can watch choose its next word. They are collected in <a href="/editor/five-things-that-run-in-a-browser-tab/">Five things I built that run in a browser tab</a>.</p>
+<h2>Why he runs this wire</h2><p>To have one page for the day's blockchain news. The wire is automatic; nobody picks or ranks the stories. Anything he writes here is marked <strong>From the editor</strong>.</p>
+<h2>His pieces</h2><ul>${editor.map((e) => `<li><a href="/editor/${e.slug}/">${esc(e.title)}</a></li>`).join("")}</ul>
+</div></article></div>` }));
 }
 
 // ---------- about
 write("about/index.html", page({ title: "About and sources · The Blockchain Wire", desc: "How The Blockchain Wire works, which outlets it reads, and who edits it.", url: "/about/", cur: "about",
   body: `<article class="art"><div class="meta"><span class="flag">About</span></div><h1>One page for the day's blockchain news.</h1><p class="stand">The wire reads the public feeds of the outlets below every couple of hours and lists what they published: headline, source, time and a one-line summary. Every story links to the original.</p><div class="prose">
 <h2>How it works</h2><p>Nothing here is picked, ranked or rewritten by hand. Stories are sorted by the time their publisher gave them and filed into sections by keyword rules, so a story will sometimes sit in the wrong one. The full text is never copied; you read it where it was reported.</p>
-<h2>Who edits it</h2><p>The Blockchain Wire is edited by <a href="https://www.pratyushshivam.com" rel="noopener">Pratyush Shivam</a>, who builds blockchain infrastructure. Pieces marked <strong>From the editor</strong> are written by him and are always labelled. There are no adverts, no trackers and no sponsored stories.</p>
+<h2>Who edits it</h2><p>The Blockchain Wire is edited by <a href="/pratyush-shivam/">Pratyush Shivam</a>, CTO of Konfidio, who builds blockchain infrastructure. Pieces marked <strong>From the editor</strong> are written by him and are always labelled. There are no adverts, no trackers and no sponsored stories.</p>
 <h2>Sources</h2><ul class="srcs">${SOURCES.map((s) => `<li><a href="${s.site}" rel="noopener">${esc(s.name)}</a><span>${items.filter((i) => i.s === s.name).length} stories in the archive</span></li>`).join("")}</ul>
 <h2>For publishers</h2><p>If you run one of these outlets and would rather not be listed, or you run one that should be, write to the editor through <a href="https://www.pratyushshivam.com" rel="noopener">pratyushshivam.com</a> and it will be changed.</p></div></article>` }));
 
 // ---------- feeds, sitemap, robots
 const rss = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>The Blockchain Wire: from the editor</title><link>${SITE}/editor/</link><description>Pieces written by the editor of The Blockchain Wire.</description>${editor.map((e) => `<item><title>${esc(e.title)}</title><link>${SITE}/editor/${e.slug}/</link><guid>${SITE}/editor/${e.slug}/</guid><pubDate>${new Date(e.date).toUTCString()}</pubDate><description>${esc(e.summary)}</description></item>`).join("")}</channel></rss>`;
 write("feed.xml", rss);
-const urls = ["/", ...SECTIONS.map((s) => `/${s.id}/`), "/editor/", ...editor.map((e) => `/editor/${e.slug}/`), "/about/"];
+const urls = ["/", ...SECTIONS.map((s) => `/${s.id}/`), "/editor/", ...editor.map((e) => `/editor/${e.slug}/`), "/pratyush-shivam/", "/about/"];
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${built.toISOString().slice(0, 10)}</lastmod></url>`).join("")}</urlset>`);
 write("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 write("404.html", page({ title: "Not found · The Blockchain Wire", desc: "That page is not on the wire.", url: "/404", cur: "", body: `<article class="art"><h1>That page is not on the wire.</h1><p class="stand"><a href="/">Back to the latest headlines →</a></p></article>` }));
