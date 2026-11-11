@@ -1,0 +1,36 @@
+# Reads the feeds every two hours, keeps the archive in the repo, and publishes the static site.
+# Free on a public repository. Needs two repository secrets: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+name: wire
+on:
+  schedule:
+    - cron: "7 */2 * * *"
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: wire
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node build.mjs
+      - name: Keep the archive
+        run: |
+          git config user.name "The Blockchain Wire"
+          git config user.email "wire@users.noreply.github.com"
+          git add data/items.json
+          git diff --cached --quiet || git commit -m "wire: update archive [skip ci]"
+          git push
+      - name: Publish
+        run: npx --yes wrangler@4 pages deploy dist --project-name theblockchainwire --branch main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
