@@ -1,1 +1,14 @@
-{ "name": "theblockchainwire", "private": true, "type": "module", "scripts": { "build": "node build.mjs", "build:offline": "node build.mjs --offline" } }
+{
+  "name": "theblockchainwire",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:offline": "node build.mjs --offline",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^4.160.0"
+  }
+}
