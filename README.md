@@ -2,7 +2,8 @@
 
 **Every blockchain headline, as it happens.** One page for the day's blockchain news, read from the outlets that report it and linked straight back to them.
 
-**Read it:** [theblockchainwire.com](https://theblockchainwire.com)
+**Read it:** [theblockchainwire.com](https://theblockchainwire.com)  
+**How it is built:** [pratyushshivam.com/projects/the-blockchain-wire](https://www.pratyushshivam.com/projects/the-blockchain-wire/)
 
 | | |
 | :-- | :-- |
