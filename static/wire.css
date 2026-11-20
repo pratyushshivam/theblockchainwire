@@ -156,4 +156,7 @@ a.more:hover{color:var(--blue)}
 .who .facts span{font:500 12px/1.6 var(--m);color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
 .who .facts a{color:var(--blue)}
 .who .art{padding:0;max-width:760px}
+.edfig{margin:34px 0;max-width:440px}
+.who .edfig img{display:block;width:100%;height:auto;aspect-ratio:auto;box-shadow:none;border:1px solid var(--line)}
+.edfig figcaption{font:500 12px/1.6 var(--m);color:var(--mute);margin-top:10px}
 @media (max-width:1000px){.who{grid-template-columns:1fr;gap:30px;padding-top:34px}.who .pic{position:static;max-width:300px}}
